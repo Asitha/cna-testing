@@ -1,6 +1,7 @@
 import ballerina/http;
 import ballerina/crypto;
 import ballerina/io;
+import ballerina/jwt;
 
 configurable string greeting = "Hello ";
 
@@ -29,9 +30,10 @@ service /util on new http:Listener(9091) {
     }
 
 
-    resource function get header(http:Request req) returns string[]|error? {
+    resource function get headers(http:Request req) returns string[]|error? {
         // Send a response back to the caller.
         string[] headers = [];
+
         req.getHeaderNames().forEach(function (string headerName) {
             string|http:HeaderNotFoundError headerValue = req.getHeader(headerName);
             if (headerValue is string) {
@@ -42,6 +44,10 @@ service /util on new http:Listener(9091) {
             }
         });
         return headers;
+    }
 
+    resource function get headers/jwt/subject(@http:Header string x\-jwt\-assertion) returns string?|error {
+        [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(x\-jwt\-assertion);
+        return payload.sub;
     }
 }
