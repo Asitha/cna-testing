@@ -22,6 +22,14 @@ service /greeter on new http:Listener(9090) {
 
 }
 
+service /api/v1 on new http:Listener(9092) {
+
+    resource function get md5sum(string value) returns string|error {
+        byte[] hashedBytes = crypto:hashMd5(value.toBytes());
+        return hashedBytes.toBalString();
+    }
+}
+
 service /util on new http:Listener(9091) {
 
     resource function get md5sum(string value) returns string|error {
