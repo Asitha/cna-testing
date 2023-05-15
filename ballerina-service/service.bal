@@ -4,10 +4,10 @@ import ballerina/io;
 import ballerina/jwt;
 
 configurable string greeting = "Hello ";
-
+public listener http:Listener httpListener = check new(9090);
 # A service representing a network-accessible API
 # bound to port `9090`.
-service /greeter on new http:Listener(9090) {
+service /greeter on httpListener {
 
     # A resource for generating greetings
     # + name - the input string name
@@ -20,14 +20,6 @@ service /greeter on new http:Listener(9090) {
         return greeting + name;
     }
 
-}
-
-service /api/v1 on new http:Listener(9092) {
-
-    resource function get md5sum(string value) returns string|error {
-        byte[] hashedBytes = crypto:hashMd5(value.toBytes());
-        return hashedBytes.toBalString();
-    }
 }
 
 service /util on new http:Listener(9091) {
