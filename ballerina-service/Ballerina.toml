@@ -2,7 +2,7 @@
 org = "asitha"
 name = "ballerina_service"
 version = "0.1.0"
-distribution = "2201.2.3"
+distribution = "2201.6.0"
 
 [build-options]
 observabilityIncluded = true
