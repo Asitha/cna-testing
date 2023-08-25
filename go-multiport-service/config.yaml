@@ -1,0 +1,8 @@
+name: ${choreo.configs.name}}
+backendUrl: ${choreo.configs.backendUrl}
+
+database:
+  user: ${choreo.configs.database.user}
+  password: ${choreo.configs.database.password}
+  host: ${choreo.configs.database.host}
+  port: ${choreo.configs.database.port}

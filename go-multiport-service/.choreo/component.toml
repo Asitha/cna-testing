@@ -1,0 +1,45 @@
+version = "1.0.0" # The version of the specification
+
+[component]
+name = "My Component"
+type = "service"
+
+[[component.endpoint]]
+name = "endpoint_foo"
+port = 8080
+type = "REST"
+network_visibility = "Public"
+context = "/mycontext"
+schemaPath = "openapi.yaml"
+version="1.2"
+
+[[component.endpoint]]
+name = "endpoint_bar"
+port = 8081
+type = "GRPC"
+network_visibility = "Project"
+
+[component.config]
+environment_variables = [
+    "MY_ENV_VAR_FOO=${choreo.foo}",
+    "MY_ENV_VAR_BAR",
+    "MY_ENV_VAR_BAZ",
+    "MY_ENV_VAR_QUX",
+    "MY_ENV_VAR_QUUX=foo",
+]
+
+# The following is an example of a file that is mounted to the container
+# User can mount multiple files to the container
+[[component.config.file]]
+name = "myconfig"
+mount_path = "/app/config.json"
+template = """
+name=${choreo.name}
+secret=${choreo.secret}
+foo=bar
+"""
+
+####
+component.dependencies = [
+    "org:proj:comp:endpoint_foo:project_v1.3"
+]

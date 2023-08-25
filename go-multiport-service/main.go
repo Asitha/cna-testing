@@ -6,22 +6,6 @@ import (
 	"net/http"
 )
 
-func hello8080(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello 8080, %s", r.URL.Query().Get("name"))
-}
-
-func hello6657(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello 6657, %s", r.URL.Query().Get("name"))
-}
-
-func hello9876(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello 9876, %s", r.URL.Query().Get("name"))
-}
-
-func hello9090(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello 9090, %s", r.URL.Query().Get("name"))
-}
-
 func main() {
 	serverMux8080 := http.NewServeMux()
 	serverMux6657 := http.NewServeMux()
@@ -54,4 +38,20 @@ func check(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func hello8080(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello from port 8080, %s", r.URL.Query().Get("name"))
+}
+
+func hello6657(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello from port 6657, %s", r.URL.Query().Get("name"))
+}
+
+func hello9876(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello from port 9876, %s", r.URL.Query().Get("name"))
+}
+
+func hello9090(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello from port 9090, %s", r.URL.Query().Get("name"))
 }
