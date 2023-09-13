@@ -32,7 +32,6 @@ service /util on httpListener2 {
 
 
     resource function get headers(http:Request req) returns string[]|error? {
-        // Send a response back to the caller.
         string[] headers = [];
 
         req.getHeaderNames().forEach(function (string headerName) {
