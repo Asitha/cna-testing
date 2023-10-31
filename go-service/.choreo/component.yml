@@ -1,0 +1,86 @@
+version: 0.2
+
+endpoints:
+- name: default
+  port: 9090
+  type: REST
+  visibility: Public
+  context: /greeter
+  schemaFilePath: openapi.yaml
+
+- name: internal-api
+  port: 8080
+  type: GRPC
+  visibility: Project
+  context: /
+  schemaFilePath: pkg/greeter.proto
+
+- name: web-app
+  port: 8080
+  type: WEB_APP
+  visibility: Public
+  authentication:
+  routes:
+    secured: [/]
+    public: [/login, /healthz, /metrics]
+
+# connections:
+#   - id:salesforce://salesforceCorporate
+#     mappings:
+#       - instance.url: SALESFORCECOPERATE_INSTANCE_URL
+#       - PAT: SALESFORCECOPERATE_PAT
+
+connections:
+  - salesforceCorporate
+  - projId/componentId/endpointName/v1
+  - mysql://commondb
+
+configs:
+  environmentVariables:
+    - name: SALESFORCECOPERATE_INSTANCE_URL
+      value: ${salesforceCorporate.instanceaUrl}
+    - name: GREETER
+      value: ${greeter}
+    - name: GRPC_SERVER_PORT
+
+  files:
+    - name: config.js
+      mountPath: /app/
+      content: |
+        window.configs = {
+          name: "hello"
+        }
+    - name: cert.pem
+      mountPath: /app/certs/
+      filePath: ${certs.greeter-cert}
+
+################################
+
+# Command line args
+# build:
+#   command: mvn
+#   args: ["clean", "install"]
+
+
+# deploy:
+#   environmentVariables:
+#     - name: SALESFORCECOPERATE_INSTANCE_URL
+#       value: ${salesforceCorporate.instance.url}
+#     - name: GREETER
+#       value: ${greeter}
+#     - name: GRPC_SERVER_PORT
+
+#   files:
+#     - name: config.js
+#       mountPath: /app/
+#       content: |
+#         window.configs = {
+#           name: "hello"
+#         }
+#     - name: cert.pem
+#       mountPath: /app/certs/
+#       filePath: ${certs.greeter-cert}
+
+# execute:
+#   command: "./greeter" #optional
+#   args: ["--port", "${GRPC_SERVER_PORT}"] #optional
